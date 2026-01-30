@@ -127,14 +127,14 @@ def download_file(url, dest):
 def check_for_updates():
     print_step("Checking for PlayIntegrityPro updates...")
     try:
-        repo = "enayat/PlayIntegrityPro"
+        repo = "DeepEyeCrypto/PlayIntegrityPro"
         api_url = f"https://api.github.com/repos/{repo}/releases/latest"
         response = requests.get(api_url, timeout=10)
         if response.status_code == 200:
             latest = response.json()['tag_name']
             if latest != f"v{VERSION}":
                 print(f"{Fore.YELLOW}[!] New Version Available: {latest}")
-                print(f"{Fore.YELLOW}[!] Download from: https://github.com/enayat/PlayIntegrityPro/releases")
+                print(f"{Fore.YELLOW}[!] Download from: https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases")
             else:
                 print_success("You are running the latest version.")
     except:

@@ -17,7 +17,7 @@ This method automates the entire process, including dependency installation and 
 pkg update && pkg install python git -y
 
 # 2. Run fixer
-curl -sSL https://raw.githubusercontent.com/enayat/PlayIntegrityPro/main/src/play_integrity_fixer.py | python
+curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/src/play_integrity_fixer.py | python
 ```
 
 ### Installation Steps in Script
@@ -34,7 +34,7 @@ curl -sSL https://raw.githubusercontent.com/enayat/PlayIntegrityPro/main/src/pla
 
 If you prefer to flash files manually via the Magisk app:
 
-1. Download both ZIPs from the [Releases](https://github.com/enayat/PlayIntegrityPro/releases) page:
+1. Download both ZIPs from the [Releases](https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases) page:
    - `PlayIntegrityPro-v1.0.zip`
    - `ksu-play-integrity-v1.0.zip` (Required for KernelSU users)
 

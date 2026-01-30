@@ -18,7 +18,7 @@ LATESTARTSERVICE=true
 print_modname() {
   ui_print "*******************************"
   ui_print "      Play Integrity Pro       "
-  ui_print "      By: enayat               "
+  ui_print "      By: DeepEyeCrypto               "
   ui_print "*******************************"
 }
 
