@@ -1,4 +1,5 @@
 <div align="center">
+<img src="docs/assets/images/logo.png" width="250" style="margin-bottom: 1.5rem;">
 
 # 🚀 Play Integrity Pro
 
