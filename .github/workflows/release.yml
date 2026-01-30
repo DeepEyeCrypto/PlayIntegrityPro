@@ -1,0 +1,27 @@
+name: Auto Release
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build Magisk ZIP
+      run: |
+        cd modules/PlayIntegrityPro
+        zip -r ../../dist/PlayIntegrityPro-${GITHUB_REF#refs/tags/v}.zip .
+    
+    - name: Build KSU ZIP  
+      run: |
+        cd modules/ksu-play-integrity
+        zip -r ../../dist/ksu-play-integrity-${GITHUB_REF#refs/tags/v}.zip .
+    
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/*.zip
+          src/play_integrity_fixer.py

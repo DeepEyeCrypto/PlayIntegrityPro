@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Integrity Pro | Automated Android Fixer</title>
+    <meta name="description" content="Achieve 3 Greens (Strong Integrity) on rooted Android with one click. Magisk and KernelSU supported.">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00D4FF;
+            --accent: #FF00FF;
+            --bg: #0A0A12;
+            --card-bg: rgba(26, 26, 46, 0.7);
+            --text: #E5E5E5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #16213E 0%, #0A0A12 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img { height: 40px; }
+
+        header {
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .hero-sub {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .terminal {
+            background: #000;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            border: 1px solid #333;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .terminal .line { color: #00FF88; }
+        .terminal .cmd { color: #E5E5E5; }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .cta-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">
+                <img src="assets/images/logo.png" alt="Logo">
+                PLAY INTEGRITY PRO
+            </a>
+            <div class="links">
+                <a href="https://github.com/enayat/PlayIntegrityPro" style="color: white; text-decoration: none;">GitHub</a>
+            </div>
+        </nav>
+
+        <header>
+            <h1>THE ULTIMATE 3 GREENS</h1>
+            <p class="hero-sub">Automated Play Integrity Fix for Rooted Android Devices</p>
+            <div class="cta-group">
+                <a href="#install" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/enayat/PlayIntegrityPro/releases" class="btn btn-secondary">Download ZIP</a>
+            </div>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h3>🚀 One-Click Automation</h3>
+                <p>Nuclear cleanup, GMS data wipes, and module installation handled automatically in Termux.</p>
+            </div>
+            <div class="card">
+                <h3>🧬 AI Fingerprinting</h3>
+                <p>V2.0 engine selects the most stable community-verified fingerprints for your specific OS.</p>
+            </div>
+            <div class="card">
+                <h3>🛡️ Native Evasion</h3>
+                <p>Direct TEE property injection via optimized C binaries for maximum stealth.</p>
+            </div>
+        </div>
+
+        <div id="install" class="terminal">
+            <div class="line"># Run the one-click installer in Termux</div>
+            <div class="cmd">curl -sSL https://raw.githubusercontent.com/enayat/PlayIntegrityPro/main/src/play_integrity_fixer.py | python</div>
+        </div>
+
+        <footer>
+            Made with ❤️ for the Android Security Community<br>
+            &copy; 2026 Play Integrity Pro
+        </footer>
+    </div>
+</body>
+</html>

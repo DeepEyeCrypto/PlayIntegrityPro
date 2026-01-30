@@ -1,0 +1,7 @@
+id=playintegritypro
+name=Play Integrity Pro
+version=v1.0
+versionCode=100
+author=enayat
+description=Automated "3 Greens" Play Integrity fix. Includes early-boot props and runtime fingerprint injection.
+updateJson=https://raw.githubusercontent.com/enayat/PlayIntegrityPro/main/modules/PlayIntegrityPro/update.json
