@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.5] - 2026-02-13
+
+- **Export Working Stack**: Generate a recovery ZIP for backups.
+- **Fingerprint Deep-Dive**: Forensic analysis of fingerprint stability.
+- **Banking Stealth Tester**: Simulation of bank app environment checks.
+- **Improved README**: Fixed linting and simplified documentation.
+- **Hardened Cleanup**: autopif4.sh now uses surgical cache pruning.
+
 ## [v1.1.0] - 2026-02-13
 
 ### Added

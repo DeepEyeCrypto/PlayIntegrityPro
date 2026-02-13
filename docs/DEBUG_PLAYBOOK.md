@@ -2,7 +2,19 @@
 
 If you have installed the full stack but are still seeing **STRONG RED** or experiencing app failures (Google Wallet, Banking Apps), follow this decision matrix to identify and fix the root cause.
 
-### 🟢 PHASE 4: Stealth Mode (Hardened Props)
+## 🚦 Troubleshooting Matrix
+
+| Symptom | Detection Command (Termux) | Likely Root Cause | Recommended Fix |
+| :--- | :--- | :--- | :--- |
+| **BASIC RED** | `su -c 'which magisk'` | Root hiding broken. | Ensure **ZygiskNext** is active. |
+| **STRONG RED** | `ls /data/adb/tricky/keybox.xml` | Keybox revoked. | Use **Option 10** to rotate keybox. |
+| **3 GREENS** fail | `logcat \| grep -i "attestation"` | GMS cache issue. | Use **Option 1** (Nuclear Reset). |
+| **No Keybox** | `ls /data/adb/tricky/` | Pathing error. | Check permissions (644). |
+| **Bootloop** | `n/a` | Module conflict. | Use Safe Mode to uninstall. |
+
+---
+
+## 🏗️ Phase 4: Stealth Mode (Hardened Props)
 
 If you have 3 Greens but a specific app (e.g., highly secured Banking, Work Profile apps) still fails:
 
@@ -12,18 +24,6 @@ If you have 3 Greens but a specific app (e.g., highly secured Banking, Work Prof
     * Sanitize `ro.build.tags` and `ro.build.type`.
     * Freeze GMS Chimera services that track hardware mismatches.
 3. **Warning:** Some ROMs may experience push notification delays with Chimera frozen. If this happens, use Option 15 to Repair.
-
----
-
-### 🛡️ Common Error Key (Black-Hat Level)
-
-| Symptom | Detection Command (Termux) | Likely Root Cause | Recommended Fix |
-| :--- | :--- | :--- | :--- |
-| **BASIC RED** | `su -c 'which magisk'` | Root hiding is broken or Zygisk failed. | Ensure **ZygiskNext** is active. Disable Magisk's "Enforce Denylist" (let Shamiko handle it). |
-| **STRONG RED** (Device Green) | `ls /data/adb/tricky/keybox.xml` | Keybox is revoked or misconfigured. | Use **Option 10** (YuriKey Action) to rotate your keybox. Check if `target.txt` includes GMS. |
-| **3 GREENS** but **Wallet Fails** | `logcat | grep -i "attestation"` | GMS has cached a previous "Fail" state. | Use **Option 1** (Nuclear Reset) to wipe GMS/Play Store data. Reboot and wait 20 mins. |
-| **"No Keybox Found"** | `ls /data/adb/tricky/` | TrickyStore pathing error. | Ensure keybox.xml is in `/data/adb/tricky/` with 644 permissions. Re-run YuriAction. |
-| **Bootloop after Install** | `n/a` | Module conflict (e.g. old SafetyNetFix). | Boot to Safe Mode and use **Option 1** to clear old integrity modules. |
 
 ---
 
@@ -44,14 +44,14 @@ If you see `Handle attestation key successfully`, your Keybox is working.
 Google checks if the hardware-reported patch matches your system props.
 
 * **Check Prop:** `getprop ro.build.version.security_patch`
-* **Action:** If `STRONG` is red, ensure this date matches the one expected by your current Keybox (YuriKey handles this automatically for curated keys).
+* **Action:** If `STRONG` is red, ensure this date matches the one expected by your current Keybox.
 
 ### 3. RKP (Remote Key Provisioning) Interference
 
 On Android 14+, Google may force RKP.
 
 * **Check:** `getprop remote_provisioning.status`
-* **If 'active':** Google may override your local Keybox. This requires the "RKP Bypass" strategy included in the latest **Play Integrity Pro** stack.
+* **If 'active':** Google may override your local Keybox. This requires the "RKP Bypass" strategy included in our stack.
 
 ---
 
@@ -59,9 +59,10 @@ On Android 14+, Google may force RKP.
 
 In some cases, Strong Integrity is **impossible** via software:
 
-1. **Samsung Knox (0x1)**: If Knox is tripped, hardware attestation is often permanently disabled in the TEE.
-2. **Broken Keymaster**: Some Custom ROMs have legacy/broken TEE implementations that cannot handle modern KeyMint certificates.
-3. **Blacklisted Serials**: If your device ID itself is blacklisted by Google (rare).
+1. **Samsung Knox (0x1)**: If Knox is tripped, hardware attestation is often permanently disabled.
+2. **Broken Keymaster**: Some Custom ROMs have legacy/broken TEE implementations.
+3. **Blacklisted Serials**: If your device ID itself is blacklisted by Google.
 
 ---
+
 *Reference: [Strong Play Integrity Guide](STRONG_INTEGRITY_GUIDE.md)*

@@ -10,7 +10,7 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
-VERSION = "1.1.0"
+VERSION = "1.1.5"
 BANNER = f"""
 {Fore.CYAN}{Style.BRIGHT}
     ____  __              ____       __                       _ __         ____                 
@@ -94,6 +94,7 @@ def main_menu():
     print(f"{Fore.YELLOW}19.{Fore.WHITE} Enforce Stealth Mode (Hardened Props)")
     print(f"{Fore.YELLOW}20.{Fore.WHITE} Fingerprint Quality Deep-Dive")
     print(f"{Fore.YELLOW}21.{Fore.WHITE} Banking App Stealth Tester")
+    print(f"{Fore.YELLOW}22.{Fore.WHITE} Export Working Stack (ZIP)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -638,6 +639,40 @@ def run_app_stealth_test():
         
     input("\nPress Enter to return to menu...")
 
+def run_stack_export():
+    import zipfile
+    clear_screen()
+    print(f"{Fore.GREEN}{Style.BRIGHT}--- STACK EXPORT (RECOVERY ZIP) ---")
+    print(f"{Fore.YELLOW}[*] Packaging your active pif.json and keybox.xml...")
+    
+    export_path = "/sdcard/Download/PlayIntegrityPro_Backup.zip"
+    try:
+        with zipfile.ZipFile(export_path, 'w') as z:
+            # 1. pif.json
+            pif = "/data/adb/modules/playintegrityfix/pif.json"
+            if os.path.exists(pif):
+                z.write(pif, "pif.json")
+                print_success("Aggregated pif.json")
+                
+            # 2. Keybox
+            kb = "/data/adb/tricky/keybox.xml"
+            # Since cat is often required for /data/adb/
+            check = subprocess.run(['su', '-c', f'cat {kb}'], capture_output=True, text=True)
+            if check.returncode == 0:
+                z.writestr("keybox.xml", check.stdout)
+                print_success("Aggregated keybox.xml")
+                
+            # 3. Environment Summary
+            summary = f"Version: {VERSION}\nDevice: {os.uname().machine}\nExport Date: {time.ctime()}"
+            z.writestr("export_meta.txt", summary)
+            
+        print(f"\n{Fore.GREEN}[✓] Backup created: {export_path}")
+        print(f"{Fore.YELLOW}[*] You can flash this via YuriKey Restore or manual copy after reset.")
+    except Exception as e:
+        print_error(f"Export failed: {e}")
+        
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -666,6 +701,7 @@ def main():
         elif choice == '19': run_stealth_mode()
         elif choice == '20': run_fingerprint_dive()
         elif choice == '21': run_app_stealth_test()
+        elif choice == '22': run_stack_export()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

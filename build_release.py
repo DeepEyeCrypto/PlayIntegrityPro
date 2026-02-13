@@ -24,11 +24,11 @@ def main():
     
     # Package Magisk Module
     magisk_src = modules_dir / "PlayIntegrityPro"
-    create_zip(magisk_src, dist_dir / "PlayIntegrityPro-v1.1.0.zip")
+    create_zip(magisk_src, dist_dir / "PlayIntegrityPro-v1.1.5.zip")
     
     # Package KernelSU Module
     ksu_src = modules_dir / "ksu-play-integrity"
-    create_zip(ksu_src, dist_dir / "ksu-play-integrity-v1.1.0.zip")
+    create_zip(ksu_src, dist_dir / "ksu-play-integrity-v1.1.5.zip")
     
     print("\n[!] Release builds are ready in the 'dist' directory.")
 
