@@ -10,7 +10,7 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 BANNER = f"""
 {Fore.GREEN}{Style.BRIGHT}
   ██████╗ ██╗      █████╗ ██╗   ██╗    ██╗███╗   ██╗████████╗███████╗ ██████╗ ██████╗ ██╗████████╗██╗   ██╗
@@ -158,6 +158,21 @@ def install_stack():
         "Shamiko": "https://github.com/LSPosed/Shamiko/releases/latest/download/Shamiko-v1.0.1-300-release.zip"
     }
 
+    print_step("Pre-installation Audit...")
+    conflicts = ["playintegrityfix", "safetynet-fix", "pif-next", "play-integrity-fork"]
+    found_conflicts = []
+    for c in conflicts:
+        if os.path.exists(f"/data/adb/modules/{c}"):
+            found_conflicts.append(c)
+    
+    if found_conflicts:
+        print(f"{Fore.YELLOW}[!] Detected conflicting modules: {', '.join(found_conflicts)}")
+        print(f"{Fore.YELLOW}[!] It is HIGHLY RECOMMENDED to remove them before proceeding.")
+        if input("Automatically uninstall conflicts? (y/N): ").lower() == 'y':
+            for c in found_conflicts:
+                subprocess.run(['su', '-c', f'rm -rf /data/adb/modules/{c}'], check=False)
+            print_success("Conflicts marked for removal (reboot required, but we will continue).")
+
     print_step("Configuring Shamiko requirements...")
     print(f"{Fore.YELLOW}[!] IMPORTANT: For Shamiko to work, 'Enforce Denylist' MUST be OFF in Magisk Settings.")
     
@@ -215,11 +230,46 @@ def rotate_fingerprint():
     input("\nPress Enter to return to menu...")
 
 def check_integrity():
-    print_step("Checking Play Integrity status...")
-    status = "MEETS_DEVICE_INTEGRITY: ✅\nMEETS_STRONG_INTEGRITY: ❓"
-    print(f"{Fore.WHITE}{status}")
-    if input("Report to Telegram? (y/N): ").lower() == 'y':
-        send_telegram_msg(f"📊 *Integrity Report*\n{status}")
+    clear_screen()
+    print(f"{Fore.CYAN}--- DEEPEYE INTEGRITY DIAGNOSTIC ---")
+    
+    # Check Fingerprint Match
+    print_step("Verifying Fingerprint Injection...")
+    current_fp = subprocess.run(['getprop', 'ro.build.fingerprint'], capture_output=True, text=True).stdout.strip()
+    
+    pif_json_path = "/data/adb/modules/playintegrityfix/pif.json"
+    configured_fp = "Not Configured"
+    if os.path.exists(pif_json_path):
+        try:
+            with open(pif_json_path, 'r') as f:
+                data = json.load(f)
+                configured_fp = data.get("FINGERPRINT", "Unknown")
+        except: pass
+
+    print(f" {Fore.WHITE}System FP: {current_fp}")
+    print(f" {Fore.WHITE}Config FP: {configured_fp}")
+    
+    if current_fp == configured_fp:
+        print_success("Fingerprint injection is ACTIVE.")
+    else:
+        print_error("Fingerprint mismatch! Injection may be failing.")
+
+    # Check Strong Integrity Hooks
+    print_step("Checking Strong Integrity hooks...")
+    ts_active = os.path.exists("/data/adb/modules/trickystore")
+    kb_active = os.path.exists("/data/adb/tricky/keybox.xml")
+    
+    print(f" {Fore.WHITE}TrickyStore: {'✅' if ts_active else '❌'}")
+    print(f" {Fore.WHITE}Keybox.xml: {'✅' if kb_active else '❌'}")
+    
+    if ts_active and kb_active:
+        print_success("Strong Integrity layer is PRIMED.")
+    else:
+        print_error("Strong Integrity layer is INCOMPLETE.")
+
+    status = f"FP Match: {'✅' if current_fp == configured_fp else '❌'}\nStrong Primed: {'✅' if (ts_active and kb_active) else '❌'}"
+    if input("\nReport status to Telegram? (y/N): ").lower() == 'y':
+        send_telegram_msg(f"📊 *Integrity Diagnostic*\n{status}")
     input("\nPress Enter to return to menu...")
 
 def run_ai_selector():

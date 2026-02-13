@@ -35,8 +35,8 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 If you prefer to flash files manually via the Magisk app:
 
 1. Download both ZIPs from the [Releases](https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases) page:
-   - `PlayIntegrityPro-v1.0.zip`
-   - `ksu-play-integrity-v1.0.zip` (Required for KernelSU users)
+   - `PlayIntegrityPro-v1.1.0.zip`
+   - `ksu-play-integrity-v1.1.0.zip` (Required for KernelSU users)
 
 2. **Open Magisk App** → Modules → Install from storage.
 3. Select the downloaded ZIP(s).
@@ -60,7 +60,7 @@ adb push PlayIntegrityPro-v1.0.zip /sdcard/
 ## 🔧 Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| :--- | :--- |
 | **"No working fingerprint"** | Run Option 3 (`autopif4.sh`) in the Termux script. |
 | **"1 Green only"** | Use the Nuclear Reset (Option 1) to clear GMS cache. |
 | **"Banking app crash"** | Run Option 9 to configure the Shamiko whitelist. |

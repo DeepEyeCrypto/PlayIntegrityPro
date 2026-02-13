@@ -58,6 +58,8 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 | **TrickyStore Config** | ✅ Auto | **Shamiko Integration** | ✅ V1.0 |
 | **Boot Prop Stabilization** | ✅ Native | **Cloud Backup** | ✅ V2.0 |
 | **AI Fingerprint Selector** | ✅ V2.0 | **KernelSU Native C** | ✅ Optimized |
+| **Auto-Repair Engine** | ✅ Option 15 | **Live Watcher** | ✅ Option 12 |
+| **Self-Dump Engine** | ✅ Option 14 | **Diagnostic Suite** | ✅ Option 11 |
 
 ***
 
