@@ -89,6 +89,7 @@ def main_menu():
     print(f"{Fore.YELLOW}13.{Fore.WHITE} View Module Logs (pip.log)")
     print(f"{Fore.YELLOW}14.{Fore.WHITE} Self-Dump Device (pif.json)")
     print(f"{Fore.YELLOW}15.{Fore.WHITE} Auto-Repair Strong Integrity")
+    print(f"{Fore.YELLOW}16.{Fore.WHITE} Precision Patch Balancer (pif.json)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -420,6 +421,47 @@ def run_auto_repair():
     print_success("Repair cycle finished. A REBOOT is highly recommended.")
     input("\nPress Enter to return to menu...")
 
+def run_patch_balancer():
+    clear_screen()
+    print(f"{Fore.CYAN}--- PRECISION PATCH BALANCER ---")
+    pif_path = "/data/adb/modules/playintegrityfix/pif.json"
+    if not os.path.exists(pif_path):
+        print_error("pif.json not found. Run Option 7 or 14 first.")
+        input("\nPress Enter to return to menu...")
+        return
+    
+    current_patch = subprocess.run(['getprop', 'ro.build.version.security_patch'], capture_output=True, text=True).stdout.strip()
+    print(f"[*] Current System Patch: {current_patch}")
+    
+    try:
+        with open(pif_path, 'r') as f:
+            data = json.load(f)
+    except Exception as e:
+        print_error(f"Failed to load pif.json: {e}")
+        input("\nPress Enter to return to menu...")
+        return
+    
+    pif_patch = data.get("SECURITY_PATCH", "Unknown")
+    print(f"[*] Current pif.json Patch: {pif_patch}")
+    
+    print("\n[?] High-Integrity Keyboxes often require a specific patch date.")
+    new_patch = input(f"Enter new patch date (YYYY-MM-DD or 'sync' for system) [{current_patch}]: ") or "sync"
+    
+    if new_patch == "sync":
+        data["SECURITY_PATCH"] = current_patch
+    else:
+        data["SECURITY_PATCH"] = new_patch
+        
+    try:
+        with open(pif_path, 'w') as f:
+            json.dump(data, f, indent=4)
+        print_success(f"pif.json updated to {data['SECURITY_PATCH']}.")
+    except Exception as e:
+        print_error(f"Failed to save pif.json: {e}")
+    
+    print(f"{Fore.YELLOW}[!] Remember to clear GMS cache (Option 15) after patching.")
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -442,6 +484,7 @@ def main():
         elif choice == '13': view_module_logs()
         elif choice == '14': run_self_dump()
         elif choice == '15': run_auto_repair()
+        elif choice == '16': run_patch_balancer()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")
