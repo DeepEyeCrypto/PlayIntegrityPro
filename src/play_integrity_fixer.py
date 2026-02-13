@@ -88,6 +88,7 @@ def main_menu():
     print(f"{Fore.YELLOW}12.{Fore.WHITE} Live Attestation Watcher (logcat)")
     print(f"{Fore.YELLOW}13.{Fore.WHITE} View Module Logs (pip.log)")
     print(f"{Fore.YELLOW}14.{Fore.WHITE} Self-Dump Device (pif.json)")
+    print(f"{Fore.YELLOW}15.{Fore.WHITE} Auto-Repair Strong Integrity")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -338,6 +339,37 @@ def run_self_dump():
     print(f"{Fore.YELLOW}[!] You can use this file as a temporary backup if your main PIF fails.")
     input("\nPress Enter to return to menu...")
 
+def run_auto_repair():
+    from feasibility_analyzer import StrongIntegrityAnalyzer
+    clear_screen()
+    print(f"{Fore.GREEN}--- AUTO-REPAIR ENGINE ---")
+    
+    print_step("Analyzing environment...")
+    # Surgical Cleanup
+    print_step("Clearing corrupted GMS attestation caches...")
+    commands = [
+        'rm -rf /data/user/0/com.google.android.gms/cache/droidguard*',
+        'rm -rf /data/user/0/com.google.android.gms/app_dg_cache/*',
+        'rm -rf /data/user/0/com.android.vending/cache/*'
+    ]
+    for cmd in commands:
+        subprocess.run(['su', '-c', cmd], check=False)
+    
+    # Check TrickyStore
+    if not (os.path.exists("/data/adb/modules/trickystore") or os.path.exists("/data/adb/modules/TrickyStore")):
+        print(f"{Fore.YELLOW}[!] TrickyStore module is missing. Mandatory for STRONG.")
+        if input("Install TrickyStore now? (y/N): ").lower() == 'y':
+            install_stack()
+            
+    # Check Keybox
+    if not any(os.path.exists(p) for p in ["/data/adb/tricky/keybox.xml", "/data/adb/modules/trickystore/keybox.xml"]):
+        print(f"{Fore.YELLOW}[!] keybox.xml is missing. Cannot pass STRONG.")
+        if input("Try to fetch keybox via YuriKey Action? (y/N): ").lower() == 'y':
+            check_strong_integrity_env()
+            
+    print_success("Repair cycle finished. A REBOOT is highly recommended.")
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -359,6 +391,7 @@ def main():
         elif choice == '12': run_live_watcher()
         elif choice == '13': view_module_logs()
         elif choice == '14': run_self_dump()
+        elif choice == '15': run_auto_repair()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")
