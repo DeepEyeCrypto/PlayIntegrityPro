@@ -66,19 +66,48 @@ class PlayIntegrityAI:
         decrypted = aesgcm.decrypt(nonce, ciphertext, None)
         return json.loads(decrypted.decode())
 
+    def dump_local_fingerprint(self):
+        """Extracts current device props into a pif.json format"""
+        print("[*] Dumping local hardware properties...")
+        props = {}
+        target_keys = {
+            "ro.product.model": "MODEL",
+            "ro.product.device": "DEVICE",
+            "ro.product.manufacturer": "MANUFACTURER",
+            "ro.build.fingerprint": "FINGERPRINT",
+            "ro.build.version.security_patch": "SECURITY_PATCH"
+        }
+        for prop, key in target_keys.items():
+            val = subprocess.run(['getprop', prop], capture_output=True, text=True).stdout.strip()
+            props[key] = val
+        
+        # Add static known-safe fields
+        props.update({
+            "PRODUCT": props.get("DEVICE"),
+            "BRAND": props.get("MANUFACTURER").lower()
+        })
+        return props
+
 def sync_cloud(password, action="upload"):
     pif_path = "/data/adb/modules/playintegrityfix/pif.json"
+    keybox_path = "/data/adb/tricky/keybox.xml"
     ai = PlayIntegrityAI()
     
     if action == "upload":
+        payload = {}
         if os.path.exists(pif_path):
-            with open(pif_path, 'r') as f:
-                config = json.load(f)
-            encrypted = ai.encrypt_config(config, password)
-            # requests.post("https://api.playintegritypro.com/v2/sync", json={"data": encrypted})
-            print("[✓] Config encrypted and synced to cloud.")
+            with open(pif_path, 'r') as f: payload['pif'] = json.load(f)
+        if os.path.exists(keybox_path):
+            with open(keybox_path, 'r') as f: payload['keybox'] = f.read()
+            
+        if payload:
+            encrypted = ai.encrypt_config(payload, password)
+            # In production: requests.post(f"{ai.api_endpoint}/sync", json={"data": encrypted})
+            print(f"[✓] {len(payload)} items encrypted and synced to cloud (Simulated).")
+        else:
+            print("[!] Nothing to sync.")
     elif action == "download":
-        # encrypted = requests.get("https://api.playintegritypro.com/v2/sync").json()['data']
-        # config = ai.decrypt_config(encrypted, password)
         print("[*] Fetching latest config from sync...")
+        # In production: encrypted = requests.get(f"{ai.api_endpoint}/sync").json()['data']
+        # payload = ai.decrypt_config(encrypted, password)
         pass

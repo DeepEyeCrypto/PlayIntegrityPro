@@ -87,6 +87,7 @@ def main_menu():
     print(f"{Fore.YELLOW}11.{Fore.WHITE} Strong Integrity Feasibility Report")
     print(f"{Fore.YELLOW}12.{Fore.WHITE} Live Attestation Watcher (logcat)")
     print(f"{Fore.YELLOW}13.{Fore.WHITE} View Module Logs (pip.log)")
+    print(f"{Fore.YELLOW}14.{Fore.WHITE} Self-Dump Device (pif.json)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -322,6 +323,21 @@ def view_module_logs():
         print_error(f"Failed to read logs: {e}")
     input("\nPress Enter to return to menu...")
 
+def run_self_dump():
+    from ai_selector import PlayIntegrityAI
+    clear_screen()
+    print(f"{Fore.GREEN}--- SELF-DUMP ENGINE ---")
+    ai = PlayIntegrityAI()
+    data = ai.dump_local_fingerprint()
+    
+    save_path = "/sdcard/Download/my_device_pif.json"
+    with open(save_path, 'w') as f:
+        json.dump(data, f, indent=4)
+    
+    print_success(f"Device fingerprint dumped to {save_path}")
+    print(f"{Fore.YELLOW}[!] You can use this file as a temporary backup if your main PIF fails.")
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -342,6 +358,7 @@ def main():
         elif choice == '11': run_feasibility_report()
         elif choice == '12': run_live_watcher()
         elif choice == '13': view_module_logs()
+        elif choice == '14': run_self_dump()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")
