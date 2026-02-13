@@ -12,15 +12,14 @@ init(autoreset=True)
 
 VERSION = "1.1.0"
 BANNER = f"""
-{Fore.GREEN}{Style.BRIGHT}
-  ██████╗ ██╗      █████╗ ██╗   ██╗    ██╗███╗   ██╗████████╗███████╗ ██████╗ ██████╗ ██╗████████╗██╗   ██╗
-  ██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝    ██║████╗  ██║╚══██╔══╝██╔════╝██╔════╝ ██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
-  ██████╔╝██║     ███████║ ╚████╔╝     ██║██╔██╗ ██║   ██║   █████╗  ██║  ███╗██████╔╝██║   ██║    ╚████╔╝ 
-  ██╔═══╝ ██║     ██╔══██║  ╚██╔╝      ██║██║╚██╗██║   ██║   ██╔══╝  ██║   ██║██╔══██╗██║   ██║     ╚██╔╝  
-  ██║     ███████╗██║  ██║   ██║       ██║██║ ╚████║   ██║   ███████╗╚██████╔╝██║  ██║██║   ██║      ██║   
-  ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝       ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝   
-                                                                                                        
-                                PRO - AUTOMATED FIXER v{VERSION}
+{Fore.CYAN}{Style.BRIGHT}
+    ____  __              ____       __                       _ __         ____                 
+   / __ \/ /___ ___  __  /  _/___  / /____  ____ __________  (_) /___  __/ __ \_________  ____ 
+  / /_/ / / __ `/ / / /  / // __ \/ __/ _ \/ __ `/ ___/ _ \/ / __/ / / / /_/ / ___/ __ \/ __ \\
+ / ____/ / /_/ / /_/ / _/ // / / / /_/  __/ /_/ / /  /  __/ / /_/ /_/ / ____/ /  / /_/ / /_/ /
+/_/   /_/\__,_/\__, / /___/_/ /_/\__/\___/\__, /_/   \___/_/\__/\__, /_/   /_/   \____/\____/ 
+              /____/                     /____/                /____/                          
+                                 {Fore.GREEN}PRO - NEXT-GEN INTEGRITY SUITE v{VERSION}
 {Style.RESET_ALL}
 """
 
@@ -90,6 +89,8 @@ def main_menu():
     print(f"{Fore.YELLOW}14.{Fore.WHITE} Self-Dump Device (pif.json)")
     print(f"{Fore.YELLOW}15.{Fore.WHITE} Auto-Repair Strong Integrity")
     print(f"{Fore.YELLOW}16.{Fore.WHITE} Precision Patch Balancer (pif.json)")
+    print(f"{Fore.YELLOW}17.{Fore.WHITE} Module Health Dashboard")
+    print(f"{Fore.YELLOW}18.{Fore.WHITE} Security Shield Audit (Deep Scan)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -475,6 +476,68 @@ def run_patch_balancer():
     print(f"{Fore.YELLOW}[!] Remember to clear GMS cache (Option 15) after patching.")
     input("\nPress Enter to return to menu...")
 
+def run_health_dashboard():
+    clear_screen()
+    print(f"{Fore.CYAN}{Style.BRIGHT}--- MODULE HEALTH DASHBOARD ---")
+    
+    # 1. Zygisk Status
+    zygisk = subprocess.run(['su', '-c', 'resetprop ro.zygisk'], capture_output=True, text=True).stdout.strip()
+    print(f"{Fore.WHITE}Zygisk Status: {'✅ Enabled' if zygisk == '1' else '❌ Disabled'}")
+    
+    # 2. Denylist Status
+    denylist = subprocess.run(['su', '-c', 'magisk --denylist status'], capture_output=True, text=True).stdout.strip()
+    print(f"{Fore.WHITE}Magisk Denylist: {denylist if denylist else 'Unknown (Check Magisk Settings)'}")
+    
+    # 3. Module Audit
+    print_step("Auditing critical modules...")
+    critical = ["playintegrityfix", "trickystore", "yurikey", "Shamiko", "ZygiskNext"]
+    for mod in critical:
+        path = f"/data/adb/modules/{mod}"
+        status = f"{Fore.RED}Missing"
+        if os.path.exists(path):
+            if os.path.exists(f"{path}/disable"):
+                status = f"{Fore.YELLOW}Disabled"
+            else:
+                status = f"{Fore.GREEN}Active"
+        print(f"  - {mod.ljust(15)}: {status}")
+        
+    input("\nPress Enter to return to menu...")
+
+def run_security_audit():
+    clear_screen()
+    print(f"{Fore.RED}{Style.BRIGHT}--- SECURITY SHIELD AUDIT (Deep Scan) ---")
+    
+    unsafe_props = {
+        "ro.debuggable": "1",
+        "ro.secure": "0",
+        "ro.boot.flash.locked": "0",
+        "ro.boot.verifiedbootstate": "orange",
+        "persist.sys.usb.config": "adb"
+    }
+    
+    found_issues = 0
+    for prop, unsafe_val in unsafe_props.items():
+        current = subprocess.run(['getprop', prop], capture_output=True, text=True).stdout.strip()
+        if current == unsafe_val:
+            print_error(f"Prop '{prop}' is at unsafe value: {current}")
+            found_issues += 1
+        else:
+            print_success(f"Prop '{prop}' is secure ({current})")
+            
+    # Check for test-keys
+    fp = subprocess.run(['getprop', 'ro.build.fingerprint'], capture_output=True, text=True).stdout.strip()
+    if "test-keys" in fp:
+        print_error("System Fingerprint contains 'test-keys' (Major detection trigger)")
+        found_issues += 1
+        
+    if found_issues == 0:
+        print_success("\nNo obvious stealth leaks detected.")
+    else:
+        print(f"\n{Fore.YELLOW}[!] Total issues found: {found_issues}")
+        print(f"{Fore.YELLOW}[*] Suggestion: Use Option 16 to balance patches or Option 7 for better fingerprints.")
+        
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -498,6 +561,8 @@ def main():
         elif choice == '14': run_self_dump()
         elif choice == '15': run_auto_repair()
         elif choice == '16': run_patch_balancer()
+        elif choice == '17': run_health_dashboard()
+        elif choice == '18': run_security_audit()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")
