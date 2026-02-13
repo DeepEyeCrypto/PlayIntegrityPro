@@ -14,6 +14,10 @@ print_modname() {
 on_install() {
   ui_print "- Extracting module files"
   unzip -o "$ZIPFILE" 'service.sh' -d "$MODPATH" >&2
+  
+  ui_print "- Installing native prop engine"
+  mkdir -p "$MODPATH/system/bin"
+  unzip -o "$ZIPFILE" 'system/bin/ksu-pi' -d "$MODPATH" >&2
 }
 
 set_permissions() {

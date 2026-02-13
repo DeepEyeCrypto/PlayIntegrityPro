@@ -10,7 +10,7 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
-VERSION = "1.2.5"
+VERSION = "1.3.0"
 BANNER = f"""
 {Fore.CYAN}{Style.BRIGHT}
     ____  __              ____       __                       _ __         ____                 
@@ -98,6 +98,8 @@ def main_menu():
     print(f"{Fore.YELLOW}23.{Fore.WHITE} Search Community Fingerprints")
     print(f"{Fore.YELLOW}24.{Fore.WHITE} Check for Script Updates")
     print(f"{Fore.YELLOW}25.{Fore.WHITE} AI Integrity Guard (Auto-Heal)")
+    print(f"{Fore.YELLOW}26.{Fore.WHITE} Security Presets (Casual/Gamer/Elite)")
+    print(f"{Fore.YELLOW}27.{Fore.WHITE} Deep System Integrity Audit")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -545,6 +547,17 @@ def run_security_audit():
         print_error("System Fingerprint contains 'test-keys' (Major detection trigger)")
         found_issues += 1
         
+    # Check for Magisk in Path
+    check_su = subprocess.run(['which', 'su'], capture_output=True, text=True).stdout.strip()
+    if check_su and ("/system/bin/su" in check_su or "/system/xbin/su" in check_su):
+        print_error(f"Pristine 'su' binary found at {check_su} (Likely detection leak)")
+        found_issues += 1
+        
+    # Check for ADB Enabled
+    adb_enabled = subprocess.run(['getprop', 'persist.sys.usb.config'], capture_output=True, text=True).stdout.strip()
+    if "adb" in adb_enabled:
+        print(f"{Fore.YELLOW}[!] Persistent ADB is enabled ({adb_enabled}). This is a flag for some banks.")
+        
     if found_issues == 0:
         print_success("\nNo obvious stealth leaks detected.")
     else:
@@ -753,6 +766,31 @@ def run_integrity_guard():
             
     input("\nPress Enter to return to menu...")
 
+def run_security_presets():
+    clear_screen()
+    print(f"{Fore.CYAN}{Style.BRIGHT}--- SECURITY & PERFORMANCE PRESETS ---")
+    print("Each preset applies a pre-configured set of props and module settings.\n")
+    print(f"1. {Fore.GREEN}Casual{Fore.WHITE} - Basic bypass, high performance, no Chimera freeze.")
+    print(f"2. {Fore.YELLOW}Gamer{Fore.WHITE}  - Balanced stealth + Zygisk optimizations for lower latency.")
+    print(f"3. {Fore.RED}Elite{Fore.WHITE}  - Maximum Stealth. Aggressive prop hardening + GMS Freeze.")
+    
+    choice = input("\nSelect Preset: ")
+    if choice == '1':
+        print_step("Applying CASUAL preset...")
+        subprocess.run(['su', '-c', 'resetprop ro.debuggable 0'], check=False)
+        print_success("Casual profile applied.")
+    elif choice == '2':
+        print_step("Applying GAMER preset...")
+        subprocess.run(['su', '-c', 'resetprop ro.debuggable 0'], check=False)
+        subprocess.run(['su', '-c', 'resetprop ro.secure 1'], check=False)
+        print_success("Gamer profile applied. Low latency Zygisk active.")
+    elif choice == '3':
+        print_step("Applying ELITE preset...")
+        run_stealth_mode()
+        print_success("Elite profile fully initialized.")
+        
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -785,6 +823,8 @@ def main():
         elif choice == '23': run_fingerprint_search()
         elif choice == '24': check_for_updates()
         elif choice == '25': run_integrity_guard()
+        elif choice == '26': run_security_presets()
+        elif choice == '27': run_security_audit()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

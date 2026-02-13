@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.0] - 2026-02-13
+
+- **Security Presets (Casual/Gamer/Elite)**: Quick-apply pre-configured stealth and performance profiles.
+- **Deep System Integrity Audit**: Expanded scan for Magisk leaks, ADB status, and system property vulnerabilities.
+- **KSU Installer Fix**: Properly extracts native prop engine assets on KernelSU.
+
 ## [v1.2.5] - 2026-02-13
 
 - **AI Integrity Guard**: Resident background service that auto-heals DroidGuard failures.
