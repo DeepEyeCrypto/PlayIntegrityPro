@@ -1,6 +1,6 @@
 {
-    "version": "v1.1.0",
-    "versionCode": 110,
-    "zipUrl": "https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/dist/PlayIntegrityPro-v1.1.0.zip",
+    "version": "v1.3.0",
+    "versionCode": 130,
+    "zipUrl": "https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/PlayIntegrityPro-v1.3.0.zip",
     "changelog": "https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/CHANGELOG.md"
 }
