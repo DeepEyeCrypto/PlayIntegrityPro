@@ -1,7 +1,7 @@
 id=playintegritypro
 name=Play Integrity Pro
-version=v1.3.0
-versionCode=130
+version=v1.3.1
+versionCode=131
 author=DeepEyeCrypto
 description=Automated "3 Greens" Play Integrity fix. Includes early-boot props and runtime fingerprint injection.
 updateJson=https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/modules/PlayIntegrityPro/update.json

@@ -1,8 +1,8 @@
-# 🚀 Play Integrity Pro (v1.3.0)
+# 🚀 Play Integrity Pro (v1.3.1)
 
 ![Project Banner](https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/docs/assets/images/banner.png)
 
-### The Ultimate "3 Greens" Suite for Android (2026)
+## The Ultimate "3 Greens" Suite for Android (2026)
 
 **Play Integrity Pro** is a high-performance orchestration suite designed to achieve `MEETS_STRONG_INTEGRITY` on rooted Android devices. It automates the complex interplay between ZygiskNext, TrickyStore, YuriKey, and PlayIntegrityFix.
 
@@ -46,16 +46,16 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 
 Production-ready module ZIPs are available in the [Latest Release](https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases).
 
-- [Magisk Module (v1.3.0)](https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/PlayIntegrityPro-v1.3.0.zip)
-- [KernelSU Module (v1.3.0)](https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/ksu-play-integrity-v1.3.0.zip)
+- [Magisk Module (v1.3.1)](https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/PlayIntegrityPro-v1.3.1.zip)
+- [KernelSU Module (v1.3.1)](https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/ksu-play-integrity-v1.3.1.zip)
 
 ---
 
-### 🤝 Community & Support
+## 🤝 Community & Support
 
 - [GitHub Repository](https://github.com/DeepEyeCrypto/PlayIntegrityPro)
 - [Telegram Channel](https://t.me/DeepEyeCrypto)
 
-***
+---
 
 Made with ❤️ for the Android Security Community.
