@@ -84,6 +84,7 @@ def main_menu():
     print(f"{Fore.YELLOW}8.{Fore.WHITE} CloudSync Backup/Restore")
     print(f"{Fore.YELLOW}9.{Fore.WHITE} Banking App Whitelist")
     print(f"{Fore.YELLOW}10.{Fore.WHITE} Check Strong Integrity Setup (YuriKey)")
+    print(f"{Fore.YELLOW}11.{Fore.WHITE} Strong Integrity Feasibility Report")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -280,6 +281,13 @@ def check_strong_integrity_env():
     subprocess.run(['su', '-c', f'sh {script_path}'], check=False)
     input("\nPress Enter to return to menu...")
 
+def run_feasibility_report():
+    from feasibility_analyzer import StrongIntegrityAnalyzer
+    clear_screen()
+    analyzer = StrongIntegrityAnalyzer()
+    analyzer.analyze()
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -297,6 +305,7 @@ def main():
         elif choice == '8': run_cloud_sync()
         elif choice == '9': run_banking_whitelist()
         elif choice == '10': check_strong_integrity_env()
+        elif choice == '11': run_feasibility_report()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

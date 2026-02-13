@@ -26,6 +26,7 @@
 ### 📚 Documentation
 
 * 📖 [**Strong Play Integrity (3 Greens) Guide**](docs/STRONG_INTEGRITY_GUIDE.md) - Complete setup guide for YuriKey + TrickyStore.
+* 🛠️ [**Debug Playbook**](docs/DEBUG_PLAYBOOK.md) - Troubleshooting matrix for common "Red" status issues.
 * 🛠️ [**Developer API**](docs/index.html) - Documentation for AI Selector and Fingerprint ranking.
 
 ***
