@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Integrity Pro | Automated Android Fixer</title>
-    <meta name="description" content="Achieve 3 Greens (Strong Integrity) on rooted Android with one click. Magisk and KernelSU supported.">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="Achieve 3 Greens (Strong Integrity) on rooted Android with one click. Magisk and KernelSU supported.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #00D4FF;
@@ -15,7 +19,11 @@
             --text: #E5E5E5;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background-color: var(--bg);
@@ -27,7 +35,10 @@
 
         .gradient-bg {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(circle at 50% 50%, #16213E 0%, #0A0A12 100%);
             z-index: -1;
         }
@@ -56,7 +67,9 @@
             gap: 10px;
         }
 
-        .logo img { height: 40px; }
+        .logo img {
+            height: 40px;
+        }
 
         header {
             text-align: center;
@@ -148,11 +161,16 @@
             font-size: 0.9rem;
             margin-top: 4rem;
             border: 1px solid #333;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .terminal .line { color: #00FF88; }
-        .terminal .cmd { color: #E5E5E5; }
+        .terminal .line {
+            color: #00FF88;
+        }
+
+        .terminal .cmd {
+            color: #E5E5E5;
+        }
 
         footer {
             text-align: center;
@@ -162,11 +180,17 @@
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .cta-group { flex-direction: column; }
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="gradient-bg"></div>
     <div class="container">
@@ -176,7 +200,8 @@
                 PLAY INTEGRITY PRO
             </a>
             <div class="links">
-                <a href="https://github.com/DeepEyeCrypto/PlayIntegrityPro" style="color: white; text-decoration: none;">GitHub</a>
+                <a href="https://github.com/DeepEyeCrypto/PlayIntegrityPro"
+                    style="color: white; text-decoration: none;">GitHub</a>
             </div>
         </nav>
 
@@ -185,7 +210,8 @@
             <p class="hero-sub">Automated Play Integrity Fix for Rooted Android Devices</p>
             <div class="cta-group">
                 <a href="#install" class="btn btn-primary">Get Started</a>
-                <a href="https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases" class="btn btn-secondary">Download ZIP</a>
+                <a href="https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases" class="btn btn-secondary">Download
+                    ZIP</a>
             </div>
         </header>
 
@@ -202,11 +228,20 @@
                 <h3>🛡️ Native Evasion</h3>
                 <p>Direct TEE property injection via optimized C binaries for maximum stealth.</p>
             </div>
+            <div class="card">
+                <h3>📖 Strong Integrity Guide</h3>
+                <p>Learn how to achieve 3 greens (Strong Integrity) on Android 13-16 with our detailed guide.</p>
+                <a href="STRONG_INTEGRITY_GUIDE.md"
+                    style="color: var(--primary); text-decoration: none; font-weight: bold; margin-top: 1rem; display: block;">Read
+                    Guide →</a>
+            </div>
         </div>
 
         <div id="install" class="terminal">
             <div class="line"># Run the one-click installer in Termux</div>
-            <div class="cmd">curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/src/play_integrity_fixer.py | python</div>
+            <div class="cmd">curl -sSL
+                https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/src/play_integrity_fixer.py |
+                python</div>
         </div>
 
         <footer>
@@ -215,4 +250,5 @@
         </footer>
     </div>
 </body>
+
 </html>
