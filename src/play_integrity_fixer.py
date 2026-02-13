@@ -10,7 +10,7 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
-VERSION = "1.1.5"
+VERSION = "1.2.0"
 BANNER = f"""
 {Fore.CYAN}{Style.BRIGHT}
     ____  __              ____       __                       _ __         ____                 
@@ -95,6 +95,8 @@ def main_menu():
     print(f"{Fore.YELLOW}20.{Fore.WHITE} Fingerprint Quality Deep-Dive")
     print(f"{Fore.YELLOW}21.{Fore.WHITE} Banking App Stealth Tester")
     print(f"{Fore.YELLOW}22.{Fore.WHITE} Export Working Stack (ZIP)")
+    print(f"{Fore.YELLOW}23.{Fore.WHITE} Search Community Fingerprints")
+    print(f"{Fore.YELLOW}24.{Fore.WHITE} Check for Script Updates")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -146,11 +148,19 @@ def check_for_updates():
             latest = response.json()['tag_name']
             if latest != f"v{VERSION}":
                 print(f"{Fore.YELLOW}[!] New Version Available: {latest}")
-                print(f"{Fore.YELLOW}[!] Download from: https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases")
+                if input(f"{Fore.CYAN}Download and update this script now? (y/N): ").lower() == 'y':
+                    print_step("Updating script...")
+                    raw_url = f"https://raw.githubusercontent.com/{repo}/main/src/play_integrity_fixer.py"
+                    new_content = requests.get(raw_url).text
+                    if "VERSION =" in new_content:
+                        with open(__file__, 'w') as f:
+                            f.write(new_content)
+                        print_success("Update applied! Please restart the script.")
+                        sys.exit(0)
             else:
                 print_success("You are running the latest version.")
-    except:
-        print_error("Failed to check for updates.")
+    except Exception as e:
+        print_error(f"Failed to check for updates: {e}")
 
 def install_stack():
     clear_screen()
@@ -673,6 +683,46 @@ def run_stack_export():
         
     input("\nPress Enter to return to menu...")
 
+def run_fingerprint_search():
+    from ai_selector import PlayIntegrityAI
+    clear_screen()
+    print(f"{Fore.CYAN}{Style.BRIGHT}--- COMMUNITY FINGERPRINT SEARCH ---")
+    query = input(f"{Fore.WHITE}Enter Device or Model Name (e.g. Pixel 8): ").lower()
+    
+    ai = PlayIntegrityAI()
+    results = ai.fetch_weighted_fingerprints()
+    
+    matches = []
+    for item in results:
+        data = item.get('data', {})
+        name = item.get('name', '').lower()
+        model = data.get('MODEL', '').lower()
+        device = data.get('DEVICE', '').lower()
+        
+        if query in name or query in model or query in device:
+            matches.append(item)
+            
+    if not matches:
+        print_error("No matching fingerprints found.")
+    else:
+        print(f"\n{Fore.GREEN}[✓] Found {len(matches)} matches:")
+        for idx, item in enumerate(matches, 1):
+            print(f"  {idx}. {item['name']} (Score: {item['score']})")
+            
+        pick = input(f"\nSelect a number to apply (or Enter to cancel): ")
+        if pick.isdigit():
+            idx = int(pick) - 1
+            if 0 <= idx < len(matches):
+                target = matches[idx]['data']
+                pif_path = "/data/adb/modules/playintegrityfix/pif.json"
+                with open(pif_path, 'w') as f:
+                    json.dump(target, f, indent=4)
+                print_success(f"Applied {matches[idx]['name']} config!")
+                print(f"{Fore.YELLOW}[*] Running GMS cleanup...")
+                subprocess.run(['su', '-c', 'rm -rf /data/user/0/com.google.android.gms/cache/droidguard*'], check=False)
+                
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -702,6 +752,8 @@ def main():
         elif choice == '20': run_fingerprint_dive()
         elif choice == '21': run_app_stealth_test()
         elif choice == '22': run_stack_export()
+        elif choice == '23': run_fingerprint_search()
+        elif choice == '24': check_for_updates()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

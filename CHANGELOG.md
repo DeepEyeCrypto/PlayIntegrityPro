@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.0] - 2026-02-13
+
+- **Community Fingerprint Search**: Filter and apply fingerprints from GitHub repositories by device name.
+- **Script Self-Update**: Automated mechanism to download and replace the orchestrator script with the latest version.
+- **Improved Version Sync**: Unified v1.2.0 across all modules and scripts.
+
 ## [v1.1.5] - 2026-02-13
 
 - **Export Working Stack**: Generate a recovery ZIP for backups.
