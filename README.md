@@ -1,4 +1,4 @@
-# 🚀 Play Integrity Pro
+# 🚀 Play Integrity Pro (v1.3.0)
 
 ![Project Banner](https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/docs/assets/images/banner.png)
 
@@ -8,16 +8,18 @@
 
 ---
 
-## 💎 Elite Features
+## 💎 Pro Suite Features
 
-| Feature | Status | Feature | Status |
-| :--- | :--- | :--- | :--- |
-| **Strong Integrity Analyzer** | ✅ Option 11 | **Auto-Repair Engine** | ✅ Option 15 |
-| **Precision Patch Balancer** | ✅ Option 16 | **Self-Dump Engine** | ✅ Option 14 |
-| **Module Health Dashboard** | ✅ Option 17 | **Security Shield Audit** | ✅ Option 18 |
-| **Stealth Mode (Hardened)** | ✅ Option 19 | **CloudSync Vault** | ✅ Encrypted |
+| Category | Feature | Description |
+| :--- | :--- | :--- |
+| **Recovery** | **AI Integrity Guard** | Resident background daemon that auto-heals DroidGuard failures. |
+| **Search** | **Community Search** | Filter and apply high-stability fingerprints from the global database. |
+| **Security** | **Security Presets** | One-tap profiles: Casual, Gamer, or Elite Stealth hardening. |
+| **Analysis** | **Deep System Audit** | Forensic scan for Magisk leaks, ADB flags, and property vulnerabilities. |
+| **Diagnostics** | **Health Dashboard** | Real-time status monitor for Zygisk, Shamiko, and TrickyStore. |
+| **Maintenance** | **Script Self-Update** | Keep your bypass logic fresh with automated script updates. |
 
-***
+---
 
 ## 🛠️ Quick Installation
 
@@ -29,13 +31,23 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 
 ---
 
-## 🚦 Phase-Based Workflow
+## 🚦 Recommended Workflow
 
 1. **Preparation**: Install Magisk/KernelSU + ZygiskNext.
-2. **Analyis**: Run `Option 11` to check your hardware feasibility.
-3. **Deployment**: Run `Option 10` to deploy TrickyStore and fetch a Keybox.
-4. **Verification**: Use `Option 4` for a full diagnostic report.
-5. **Hardening**: Run `Option 19` for Stealth Mode if banking apps still detect root.
+2. **Analysis**: Run `Option 11` to check your hardware feasibility.
+3. **Deployment**: Run `Option 2` to install the full Golden Stack (TrickyStore, PIF, Shamiko).
+4. **Verification**: Use `Option 17 (Health Dashboard)` to ensure all layers are active.
+5. **Hardening**: Apply the `Elite Profile (Option 26)` for maximum banking app stealth.
+6. **Intelligence**: Enable `AI Integrity Guard (Option 25)` for 24/7 background recovery.
+
+---
+
+## 📦 Manual Downloads
+
+Production-ready module ZIPs are available in the [Latest Release](https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases).
+
+- [Magisk Module (v1.3.0)](https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/PlayIntegrityPro-v1.3.0.zip)
+- [KernelSU Module (v1.3.0)](https://github.com/DeepEyeCrypto/PlayIntegrityPro/raw/main/dist/ksu-play-integrity-v1.3.0.zip)
 
 ---
 
