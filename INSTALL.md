@@ -1,4 +1,4 @@
-# 📖 Installation Guide (v1.2.0)
+# 📖 Installation Guide (v1.2.5)
 
 ## ⚡ Prerequisites
 
@@ -34,8 +34,8 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 
 Download the production-ready ZIPs from the [Official Releases](https://github.com/DeepEyeCrypto/PlayIntegrityPro/releases).
 
-1. **Magisk**: Flash `PlayIntegrityPro-v1.2.0.zip`.
-2. **KernelSU**: Flash `ksu-play-integrity-v1.2.0.zip`.
+1. **Magisk**: Flash `PlayIntegrityPro-v1.2.5.zip`.
+2. **KernelSU**: Flash `ksu-play-integrity-v1.2.5.zip`.
 3. **Post-Install**:
     - Restart into Android.
     - Open Termux and run the `Option 17 (Health Dashboard)` to verify all layers are active.

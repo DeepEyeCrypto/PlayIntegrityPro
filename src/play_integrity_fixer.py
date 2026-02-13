@@ -10,7 +10,7 @@ from colorama import Fore, Style, init
 # Initialize colorama
 init(autoreset=True)
 
-VERSION = "1.2.0"
+VERSION = "1.2.5"
 BANNER = f"""
 {Fore.CYAN}{Style.BRIGHT}
     ____  __              ____       __                       _ __         ____                 
@@ -97,6 +97,7 @@ def main_menu():
     print(f"{Fore.YELLOW}22.{Fore.WHITE} Export Working Stack (ZIP)")
     print(f"{Fore.YELLOW}23.{Fore.WHITE} Search Community Fingerprints")
     print(f"{Fore.YELLOW}24.{Fore.WHITE} Check for Script Updates")
+    print(f"{Fore.YELLOW}25.{Fore.WHITE} AI Integrity Guard (Auto-Heal)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -723,6 +724,35 @@ def run_fingerprint_search():
                 
     input("\nPress Enter to return to menu...")
 
+def run_integrity_guard():
+    clear_screen()
+    print(f"{Fore.CYAN}{Style.BRIGHT}--- AI INTEGRITY GUARD ---")
+    
+    # Check if running
+    check = subprocess.run(['su', '-c', 'pgrep -f integrity_guard.py'], capture_output=True, text=True)
+    is_running = check.stdout.strip() != ""
+    
+    if is_running:
+        print(f"{Fore.GREEN}[✓] AI Guard is ACTIVE (PID: {check.stdout.strip()})")
+        print(f"1. Stop Guard\n2. View Guard Logs\n0. Back")
+        sub_choice = input("Choice: ")
+        if sub_choice == '1':
+            subprocess.run(['su', '-c', 'pkill -f integrity_guard.py'], check=False)
+            print_success("AI Guard stopped.")
+        elif sub_choice == '2':
+            subprocess.run(['su', '-c', 'cat /data/local/tmp/integrity_guard.log'], check=False)
+    else:
+        print(f"{Fore.RED}[!] AI Guard is INACTIVE")
+        print(f"1. Start Guard (Background)\n2. View Status\n0. Back")
+        sub_choice = input("Choice: ")
+        if sub_choice == '1':
+            script_path = os.path.join(os.path.dirname(__file__), "integrity_guard.py")
+            # Run in background via nohup
+            subprocess.run(['su', '-c', f'nohup python {script_path} > /dev/null 2>&1 &'], check=False)
+            print_success("AI Guard started in background.")
+            
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -754,6 +784,7 @@ def main():
         elif choice == '22': run_stack_export()
         elif choice == '23': run_fingerprint_search()
         elif choice == '24': check_for_updates()
+        elif choice == '25': run_integrity_guard()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

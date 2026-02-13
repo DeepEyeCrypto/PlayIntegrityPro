@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.5] - 2026-02-13
+
+- **AI Integrity Guard**: Resident background service that auto-heals DroidGuard failures.
+- **Improved Stealth Props**: Native KernelSU injector now handles device serial numbers and bootloader states more aggressively.
+- **Corrupted Module Sync Fixed**: Unified v1.2.5 across all module types.
+
 ## [v1.2.0] - 2026-02-13
 
 - **Community Fingerprint Search**: Filter and apply fingerprints from GitHub repositories by device name.

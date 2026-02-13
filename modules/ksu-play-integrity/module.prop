@@ -1,6 +1,6 @@
 id=ksu-play-integrity
 name=KSU Play Integrity
-version=v1.2.0
-versionCode=120
+version=v1.2.5
+versionCode=125
 author=DeepEyeCrypto
 description=KernelSU native Play Integrity fix. Fast, efficient, and direct prop injection.
