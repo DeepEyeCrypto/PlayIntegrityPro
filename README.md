@@ -21,6 +21,14 @@
 
 **Works with:** 🏦 Banking apps, 🎬 Netflix, 🐭 Disney+, 💳 Wallet, 📱 Play Store
 
+***
+
+### 📚 Documentation
+
+* 📖 [**Strong Play Integrity (3 Greens) Guide**](docs/STRONG_INTEGRITY_GUIDE.md) - Complete setup guide for YuriKey + TrickyStore.
+* 🛠️ [**Developer API**](docs/index.html) - Documentation for AI Selector and Fingerprint ranking.
+
+***
 </div>
 
 ***
@@ -43,8 +51,8 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 
 ### ⚙️ Features
 
-| Feature | Status | Status |
-| :--- | :---: | :---: |
+| Feature | Status | Feature | Status |
+| :--- | :---: | :--- | :---: |
 | **Auto Fingerprint Detection** | ✅ Live | **GMS Data Hygiene** | ✅ Daily clear |
 | **TrickyStore Config** | ✅ Auto | **Shamiko Integration** | ✅ V1.0 |
 | **Boot Prop Stabilization** | ✅ Native | **Cloud Backup** | ✅ V2.0 |

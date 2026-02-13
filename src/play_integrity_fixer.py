@@ -83,6 +83,7 @@ def main_menu():
     print(f"{Fore.YELLOW}7.{Fore.WHITE} AI Fingerprint Selector (V2.0)")
     print(f"{Fore.YELLOW}8.{Fore.WHITE} CloudSync Backup/Restore")
     print(f"{Fore.YELLOW}9.{Fore.WHITE} Banking App Whitelist")
+    print(f"{Fore.YELLOW}10.{Fore.WHITE} Check Strong Integrity Setup (YuriKey)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -145,9 +146,10 @@ def install_stack():
     print(f"{Fore.GREEN}--- PLAY INTEGRITY PRO STACK INSTALLER ---")
     
     modules = {
-        "ZygiskNext": "https://github.com/Dr-TSNG/ZygiskNext/releases/latest/download/ZygiskNext-v1.1.0.zip",
+        "ZygiskNext": "https://github.com/Dr-TSNG/ZygiskNext/releases/download/v1.3.2/ZygiskNext-v1.3.2.zip",
         "PIF-NEXT": "https://github.com/chiteroman/PlayIntegrityFix/releases/latest/download/PlayIntegrityFix.zip",
         "TrickyStore": "https://github.com/5979/TrickyStore/releases/latest/download/TrickyStore.zip",
+        "YuriKey": "https://github.com/Yurii0307/yurikey/releases/download/v2.41/Yurikey_v2.41.signed.zip",
         "Shamiko": "https://github.com/LSPosed/Shamiko/releases/latest/download/Shamiko-v1.0.1-300-release.zip"
     }
 
@@ -168,6 +170,7 @@ def install_stack():
                 print_error(f"Failed to install {name}: {result.stderr}")
         
     print_success("\nStack installation finished. A REBOOT is required.")
+    print(f"{Fore.YELLOW}[!] After reboot, run option 10 to verify and follow YuriKey steps.")
     input("\nPress Enter to return to menu...")
 
 def send_telegram_msg(message):
@@ -263,6 +266,20 @@ def run_banking_whitelist():
     print_success(f"Configured {added} apps.")
     input("\nPress Enter to return to menu...")
 
+def check_strong_integrity_env():
+    clear_screen()
+    script_path = os.path.join(os.path.dirname(__file__), "check_strong_integrity.sh")
+    if not os.path.exists(script_path):
+        print_error(f"Script not found: {script_path}")
+        return
+    
+    print_step("Running Strong Integrity Environment Check...")
+    # Ensure script is executable
+    subprocess.run(['su', '-c', f'chmod +x {script_path}'], check=False)
+    # Run the script
+    subprocess.run(['su', '-c', f'sh {script_path}'], check=False)
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -279,6 +296,7 @@ def main():
         elif choice == '7': run_ai_selector()
         elif choice == '8': run_cloud_sync()
         elif choice == '9': run_banking_whitelist()
+        elif choice == '10': check_strong_integrity_env()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")
