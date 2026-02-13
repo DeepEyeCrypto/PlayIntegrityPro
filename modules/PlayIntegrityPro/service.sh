@@ -28,12 +28,18 @@ for pifdir in /data/adb/modules/playintegrityfix* /data/adb/modules/PlayIntegrit
   fi
 done
 
-# Daily GMS hygiene (once per day)
+# Daily GMS hygiene (once per day) - Surgical Cache Cleanup
 STAMP=/data/local/tmp/pip_gms_stamp
 if [ ! -f "$STAMP" ] || [ "$(cat $STAMP 2>/dev/null)" != "$(date +%F)" ]; then
-  log "🧹 Clearing GMS data (daily)"
-  pm clear com.google.android.gms >/dev/null 2>&1
+  log "🧹 Performing surgical GMS cache cleanup..."
+  # Target DroidGuard and Attestation caches specifically
+  rm -rf /data/user/0/com.google.android.gms/cache/droidguard*
+  rm -rf /data/user/0/com.google.android.gms/app_dg_cache/*
+  rm -rf /data/user/0/com.google.android.gms/app_dg_common/*
+  # Play Store cache
+  rm -rf /data/user/0/com.android.vending/cache/*
   echo "$(date +%F)" > "$STAMP"
+  log "✅ Cache cleanup complete"
 fi
 
 log "✅ Service complete"

@@ -85,6 +85,8 @@ def main_menu():
     print(f"{Fore.YELLOW}9.{Fore.WHITE} Banking App Whitelist")
     print(f"{Fore.YELLOW}10.{Fore.WHITE} Check Strong Integrity Setup (YuriKey)")
     print(f"{Fore.YELLOW}11.{Fore.WHITE} Strong Integrity Feasibility Report")
+    print(f"{Fore.YELLOW}12.{Fore.WHITE} Live Attestation Watcher (logcat)")
+    print(f"{Fore.YELLOW}13.{Fore.WHITE} View Module Logs (pip.log)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -288,6 +290,38 @@ def run_feasibility_report():
     analyzer.analyze()
     input("\nPress Enter to return to menu...")
 
+def run_live_watcher():
+    clear_screen()
+    print(f"{Fore.CYAN}--- LIVE ATTESTATION WATCHER ---")
+    print(f"{Fore.YELLOW}[!] Press Ctrl+C to stop watching and return to menu.\n")
+    # Filters for TrickyStore and GMS attestation events
+    filters = [
+        "TrickyStore:*",
+        "DroidGuard:*",
+        "GMS_Integrity:*",
+        "PlayIntegrityPro:*",
+        "*:S"  # Silence everything else
+    ]
+    try:
+        subprocess.run(['su', '-c', f'logcat -v time {" ".join(filters)}'])
+    except KeyboardInterrupt:
+        print("\n\nWatcher stopped.")
+    input("\nPress Enter to return to menu...")
+
+def view_module_logs():
+    clear_screen()
+    print(f"{Fore.CYAN}--- MODULE SERVICE LOGS ---")
+    log_path = "/data/local/tmp/pip.log"
+    try:
+        result = subprocess.run(['su', '-c', f'tail -n 50 {log_path}'], capture_output=True, text=True)
+        if result.stdout:
+            print(f"{Fore.WHITE}{result.stdout}")
+        else:
+            print(f"{Fore.YELLOW}Logs are empty or not found at {log_path}")
+    except Exception as e:
+        print_error(f"Failed to read logs: {e}")
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -306,6 +340,8 @@ def main():
         elif choice == '9': run_banking_whitelist()
         elif choice == '10': check_strong_integrity_env()
         elif choice == '11': run_feasibility_report()
+        elif choice == '12': run_live_watcher()
+        elif choice == '13': view_module_logs()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")
