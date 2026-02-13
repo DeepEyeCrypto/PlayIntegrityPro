@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  printf("[*] Play Integrity Pro: Native Prop Injector v1.0\n");
+  printf("[*] Play Integrity Pro: Native Prop Injector v1.1.0\n");
 
   // 1. Core Integrity Props
   set_prop("ro.boot.vbmeta.device_state", "locked");
@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
   set_prop("ro.build.type", "user");
   set_prop("ro.debuggable", "0");
   set_prop("ro.secure", "1");
+  set_prop("ro.adb.secure", "1");
 
   // 3. Optional: GMS specific props if needed
   // set_prop("ro.com.google.clientidbase", "android-google");

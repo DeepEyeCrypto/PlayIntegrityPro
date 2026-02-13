@@ -92,6 +92,8 @@ def main_menu():
     print(f"{Fore.YELLOW}17.{Fore.WHITE} Module Health Dashboard")
     print(f"{Fore.YELLOW}18.{Fore.WHITE} Security Shield Audit (Deep Scan)")
     print(f"{Fore.YELLOW}19.{Fore.WHITE} Enforce Stealth Mode (Hardened Props)")
+    print(f"{Fore.YELLOW}20.{Fore.WHITE} Fingerprint Quality Deep-Dive")
+    print(f"{Fore.YELLOW}21.{Fore.WHITE} Banking App Stealth Tester")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -573,6 +575,69 @@ def run_stealth_mode():
     print(f"{Fore.YELLOW}[!] Use Option 18 to verify the new prop state.")
     input("\nPress Enter to return to menu...")
 
+def run_fingerprint_dive():
+    from ai_selector import PlayIntegrityAI
+    clear_screen()
+    print(f"{Fore.CYAN}{Style.BRIGHT}--- FINGERPRINT QUALITY DEEP-DIVE ---")
+    pif_path = "/data/adb/modules/playintegrityfix/pif.json"
+    if not os.path.exists(pif_path):
+        print_error("pif.json not found.")
+        input("\nPress Enter to return to menu...")
+        return
+        
+    with open(pif_path, 'r') as f:
+        data = json.load(f)
+        
+    ai = PlayIntegrityAI()
+    score, warns = ai.analyze_fingerprint_quality(data)
+    
+    print(f"[*] Analyzing: {data.get('MODEL', 'Unknown Device')}")
+    print(f"[*] Stability Score: {score}/100")
+    
+    if warns:
+        print(f"\n{Fore.YELLOW}Issues Detected:")
+        for w in warns: print(f"  - {w}")
+    else:
+        print_success("No structural defects found in fingerprint.")
+        
+    # Check ABI list
+    abi = subprocess.run(['getprop', 'ro.product.cpu.abilist'], capture_output=True, text=True).stdout.strip()
+    if "arm64-v8a" in abi and ":32" in data.get("FINGERPRINT", ""):
+        print(f"{Fore.RED}[!] Fingerprint looks like 32-bit but device is ARM64. Detection Risk!")
+        
+    input("\nPress Enter to return to menu...")
+
+def run_app_stealth_test():
+    clear_screen()
+    print(f"{Fore.RED}{Style.BRIGHT}--- BANKING APP STEALTH TESTER ---")
+    print(f"{Fore.YELLOW}[*] Simulating a high-security environment check...\n")
+    
+    checks = [
+        ("Root Binary (/system/bin/su)", "ls /system/bin/su"),
+        ("Magisk Manager App", "pm list packages com.topjohnwu.magisk"),
+        ("Xposed Framework", "ls /system/framework/XposedBridge.jar"),
+        ("Developer Options", "getprop persist.sys.usb.config"),
+        ("ADB Enabled", "getprop init.svc.adbd")
+    ]
+    
+    leaks = 0
+    for label, cmd in checks:
+        print(f"Checking {label.ljust(25)}: ", end="")
+        result = subprocess.run(['su', '-c', f'{cmd} 2>/dev/null'], capture_output=True, text=True)
+        if result.stdout or result.returncode == 0:
+            print(f"{Fore.RED}⚠️ LEAK DETECTED")
+            leaks += 1
+        else:
+            print(f"{Fore.GREEN}🛡️ HIDDEN")
+            
+    if leaks > 0:
+        print(f"\n{Fore.RED}[!] Your environment is LEAKING root/debug signs.")
+        print(f"{Fore.YELLOW}[*] Solution: Enable ZygiskNext + Shamiko and use Option 19.")
+    else:
+        print_success("\nStealth check passed. Your device environment looks clean to most apps.")
+        
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -599,6 +664,8 @@ def main():
         elif choice == '17': run_health_dashboard()
         elif choice == '18': run_security_audit()
         elif choice == '19': run_stealth_mode()
+        elif choice == '20': run_fingerprint_dive()
+        elif choice == '21': run_app_stealth_test()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

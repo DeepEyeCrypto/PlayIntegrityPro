@@ -9,12 +9,12 @@ All notable changes to this project will be documented in this file.
 - **Strong Integrity Feasibility Analyzer**: Real-time scoring of device compatibility for "3 Greens".
 - **Auto-Repair Engine**: Surgical recovery tool for GMS caches and missing modules.
 - **Live Attestation Watcher**: Real-time monitoring of attestation handshakes via logcat.
+- **Fingerprint Quality Deep-Dive**: Analysis of `pif.json` for known detection triggers.
+- **Banking App Stealth Tester**: Advanced environment check simulation for high-security apps.
+- **Enforce Stealth Mode**: Aggressive prop hardening for bypass of modern detections.
 - **Self-Dump Engine**: Export local hardware properties to a standard `pif.json`.
-- **AI & Community Scrapper**: Integrated community-verified fingerprint fetching from GitHub.
-- **Surgical GMS Hygiene**: Replaced nuclear data clearing with precise cache cleanup to avoid logouts.
-- **DeepEye Integrity Diagnostic**: Advanced verification of fingerprint injection and TEE hooks.
-- **Release Automation**: Unified build script for Magisk and KSU modules.
-- **Debug Playbook**: Comprehensive troubleshooting matrix for 2026 security landscape.
+- **Surgical GMS Hygiene**: Replaced nuclear data clearing with precise cache cleanup.
+- **Native Prop Injector v1.1.0**: Updated C binary for KSU with hardened props.
 
 ## [v1.0.0] - 2026-01-31
 

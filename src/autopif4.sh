@@ -32,10 +32,14 @@ if [ -s "$TEMP_JSON" ]; then
     chown root:root "$PIF_JSON"
     echo "[+] Updated $PIF_JSON"
     
-    # Kill GMS to apply changes
-    echo "[*] Restarting Google Play Services..."
-    killall com.google.android.gms >/dev/null 2>&1
-    echo "[+] Done. Please check integrity status."
+    # Surgical GMS cleanup to apply changes without logout
+    echo "[*] Performing surgical GMS cache cleanup..."
+    rm -rf /data/user/0/com.google.android.gms/cache/droidguard*
+    rm -rf /data/user/0/com.google.android.gms/app_dg_cache/*
+    # Play Store cache
+    rm -rf /data/user/0/com.android.vending/cache/*
+    
+    echo "[+] Done. A reboot is recommended, but cached integrity should clear shortly."
 else
     echo "[!] Downloaded file is empty. Update failed."
     exit 1
