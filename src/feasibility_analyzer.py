@@ -59,15 +59,30 @@ class StrongIntegrityAnalyzer:
             score -= 60
             reasons.append(f"{Fore.RED}[!] TrickyStore Missing (-60). STRONG is impossible without it.")
 
-        # 4. Check for Keybox
+        # 4. Check for Keybox (Root-aware)
         keybox_paths = [
             "/data/adb/tricky/keybox.xml",
             "/data/adb/modules/trickystore/keybox.xml"
         ]
-        keybox_found = any(os.path.exists(p) for p in keybox_paths)
-        if keybox_found:
+        keybox_found = False
+        keybox_valid = False
+        for p in keybox_paths:
+            check = subprocess.run(['su', '-c', f'[ -f {p} ] && ls -l {p}'], capture_output=True, text=True)
+            if check.returncode == 0:
+                keybox_found = True
+                # Extract size from ls -l output (usually 5th field)
+                try:
+                    size = int(check.stdout.split()[4])
+                    if size > 500: keybox_valid = True
+                except: pass
+                break
+
+        if keybox_valid:
             score += 30
-            reasons.append(f"{Fore.GREEN}[+] Keybox.xml detected (+30)")
+            reasons.append(f"{Fore.GREEN}[+] Valid Keybox.xml detected (+30)")
+        elif keybox_found:
+            score += 10
+            reasons.append(f"{Fore.YELLOW}[!] Keybox.xml found but looks empty/small (+10)")
         else:
             score -= 40
             reasons.append(f"{Fore.RED}[!] No keybox.xml found. STRONG will FAIL (-40)")

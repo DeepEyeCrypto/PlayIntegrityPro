@@ -334,6 +334,19 @@ def check_strong_integrity_env():
     subprocess.run(['su', '-c', f'chmod +x {script_path}'], check=False)
     # Run the script
     subprocess.run(['su', '-c', f'sh {script_path}'], check=False)
+    
+    # Check for YuriKey Action script
+    yuri_action = "/data/adb/modules/yurikey/action.sh"
+    check_yuri = subprocess.run(['su', '-c', f'[ -f {yuri_action} ] && echo "found"'], capture_output=True, text=True)
+    
+    if "found" in check_yuri.stdout:
+        print(f"\n{Fore.GREEN}[+] YuriKey Action Script detected!")
+        if input(f"{Fore.CYAN}Would you like to trigger YuriKey Keybox Refresh? (y/N): ").lower() == 'y':
+            print_step("Triggering YuriKey Action...")
+            subprocess.run(['su', '-c', f'sh {yuri_action}'], check=False)
+            print_success("YuriKey Action execution finished.")
+            print(f"{Fore.YELLOW}[!] Remember to REBOOT after a Keybox update.")
+    
     input("\nPress Enter to return to menu...")
 
 def run_feasibility_report():
