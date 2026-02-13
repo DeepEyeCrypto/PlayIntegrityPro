@@ -14,3 +14,6 @@ resetprop -n ro.warranty_bit 0
 resetprop -n ro.boot.bootloader locked
 resetprop -n ro.build.tags release-keys
 resetprop -n ro.build.type user
+resetprop -n ro.debuggable 0
+resetprop -n ro.secure 1
+resetprop -n ro.adb.secure 1

@@ -2,9 +2,20 @@
 
 If you have installed the full stack but are still seeing **STRONG RED** or experiencing app failures (Google Wallet, Banking Apps), follow this decision matrix to identify and fix the root cause.
 
+### 🟢 PHASE 4: Stealth Mode (Hardened Props)
+
+If you have 3 Greens but a specific app (e.g., highly secured Banking, Work Profile apps) still fails:
+
+1. **Run Option 19** in the tool.
+2. This will:
+    * Inject `ro.adb.secure=1` (Disables hidden ADB triggers).
+    * Sanitize `ro.build.tags` and `ro.build.type`.
+    * Freeze GMS Chimera services that track hardware mismatches.
+3. **Warning:** Some ROMs may experience push notification delays with Chimera frozen. If this happens, use Option 15 to Repair.
+
 ---
 
-## 🚦 Troubleshooting Matrix
+### 🛡️ Common Error Key (Black-Hat Level)
 
 | Symptom | Detection Command (Termux) | Likely Root Cause | Recommended Fix |
 | :--- | :--- | :--- | :--- |

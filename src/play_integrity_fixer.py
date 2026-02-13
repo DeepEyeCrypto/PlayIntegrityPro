@@ -91,6 +91,7 @@ def main_menu():
     print(f"{Fore.YELLOW}16.{Fore.WHITE} Precision Patch Balancer (pif.json)")
     print(f"{Fore.YELLOW}17.{Fore.WHITE} Module Health Dashboard")
     print(f"{Fore.YELLOW}18.{Fore.WHITE} Security Shield Audit (Deep Scan)")
+    print(f"{Fore.YELLOW}19.{Fore.WHITE} Enforce Stealth Mode (Hardened Props)")
     print(f"{Fore.YELLOW}0.{Fore.WHITE} Exit")
     print("\n")
     
@@ -538,6 +539,40 @@ def run_security_audit():
         
     input("\nPress Enter to return to menu...")
 
+def run_stealth_mode():
+    clear_screen()
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}--- STEALTH MODE: HARDENED PROPS ---")
+    print(f"{Fore.YELLOW}[!] This will inject aggressive anti-detection props and freeze GMS trackers.")
+    
+    if input("\nProceed with Hardening? (y/N): ").lower() != 'y': return
+    
+    print_step("Injecting Hardened Props...")
+    stealth_props = {
+        "ro.build.type": "user",
+        "ro.build.tags": "release-keys",
+        "ro.debuggable": "0",
+        "ro.secure": "1",
+        "ro.adb.secure": "1",
+        "ro.boot.flash.locked": "1",
+        "ro.boot.verifiedbootstate": "green",
+        "ro.boot.vbmeta.device_state": "locked"
+    }
+    
+    for prop, val in stealth_props.items():
+        subprocess.run(['su', '-c', f'resetprop -n {prop} {val}'], check=False)
+        
+    print_step("Freezing known GMS detection services...")
+    services = [
+        "com.google.android.gms/.chimera.GmsIntentOperationService",
+        "com.google.android.gms/com.google.android.location.reporting.service.ReportingAndroidService"
+    ]
+    for svc in services:
+        subprocess.run(['su', '-c', f'pm disable {svc}'], check=False)
+        
+    print_success("Stealth layers applied. Effectiveness varies by ROM.")
+    print(f"{Fore.YELLOW}[!] Use Option 18 to verify the new prop state.")
+    input("\nPress Enter to return to menu...")
+
 def main():
     if not check_root(): sys.exit(1)
     check_for_updates()
@@ -563,6 +598,7 @@ def main():
         elif choice == '16': run_patch_balancer()
         elif choice == '17': run_health_dashboard()
         elif choice == '18': run_security_audit()
+        elif choice == '19': run_stealth_mode()
         elif choice == '0': sys.exit(0)
         else:
             print_error("Invalid option!")

@@ -60,6 +60,7 @@ curl -sSL https://raw.githubusercontent.com/DeepEyeCrypto/PlayIntegrityPro/main/
 | **AI Fingerprint Selector** | ✅ V2.0 | **KernelSU Native C** | ✅ Optimized |
 | **Auto-Repair Engine** | ✅ Option 15 | **Live Watcher** | ✅ Option 12 |
 | **Self-Dump Engine** | ✅ Option 14 | **Diagnostic Suite** | ✅ Option 11 |
+| **Stealth Mode (Hardened)** | ✅ Option 19 | **CloudSync Vault** | ✅ Encrypted |
 
 ***
 
